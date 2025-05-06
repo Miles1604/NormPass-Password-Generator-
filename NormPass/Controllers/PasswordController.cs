@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NormPass.Entities;
 using NormPass.Services;
+using NormPass.Utilities;
+using System.Drawing;
 
 namespace NormPass.Controllers
 {
@@ -8,8 +10,9 @@ namespace NormPass.Controllers
     public class PasswordController : Controller
     {
         private readonly PasswordGenService _passwordGenService;
+
         
-        
+
         public PasswordController()
         {
 
@@ -19,9 +22,17 @@ namespace NormPass.Controllers
         [HttpPost]
         public IActionResult GeneratePassword([FromBody] PasswordGen request)
         {
-        var password = _passwordGenService.GeneratePassword(request);
-            return Json(new { Password = password });
-            
+            var password = _passwordGenService.GeneratePassword(request);
+            var strength = _passwordGenService.CalculateStrength(password);
+
+
+
+            return Json(new {
+                Password = password,
+                PasswordStrength = strength
+            });
+
         }
+
     }
 }
