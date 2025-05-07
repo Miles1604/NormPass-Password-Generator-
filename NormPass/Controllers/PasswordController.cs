@@ -24,13 +24,15 @@ namespace NormPass.Controllers
         {
             var password = _passwordGenService.GeneratePassword(request);
             var strength = _passwordGenService.CalculateStrength(password);
+            var crackTime = _passwordGenService.PasswordCrackTime(password);
 
 
 
             return Json(new {
                 Password = password,
-                PasswordStrength = strength
-            });
+                PasswordStrength = strength,
+                CrackTime = crackTime
+            }) ;
 
         }
 

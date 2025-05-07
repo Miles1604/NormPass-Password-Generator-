@@ -41,7 +41,19 @@
     </div>
     <h5>Password Strength</h5>
     <div id="strengthBarContainer" style="width: 100%; background-color: #ddd"></div>
-        <div id="strengthBar"style="height: 10px; width: 0%;"></div>
+    <div class="progress">
+        <div id="strengthBar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+    </div>
+
+
+	<label>Password Estimated Time To Be Cracked</label>
+    <div class="crackTimeContainer">
+        <div id="crackTime" style="width: 40%" class="alert alert-info"></div>
+    </div>
+    
+
+
+	@*<div id="strengthBar"style="height: 30px; width: 0%;"></div>*@
     </div>
 
 @section Scripts {
@@ -63,27 +75,49 @@
                 success: function (data) {
                     console.log("Received data:", data);
                     document.getElementById("generatedPassword").textContent = data.password;
-
+                    document.getElementById("crackTime").textContent = data.crackTime;
                     //Call the PasswordStrength function here:
                     var strengthBar = document.getElementById("strengthBar");
 
                     if (data.passwordStrength === "Weak") {
                         strengthBar.style.width = "30%";
                         strengthBar.style.backgroundColor = "red";
+                        strengthBar.style.display = 'flex';
+                        strengthBar.style.justifyContent = 'center';
+                        strengthBar.style.alignItems = 'center';
+                        strengthBar.textContent = 'Weak Password, NOT RECOMMENDED!';
+                        strengthBar.style.color = 'white';
 
                     } else if (data.passwordStrength === "Average") {
                         strengthBar.style.width = "60%";
                         strengthBar.style.backgroundColor = "orange";
+                         strengthBar.style.display = 'flex';
+                        strengthBar.style.justifyContent = 'center';
+                        strengthBar.style.alignItems = 'center';
+                        strengthBar.textContent = 'Average Password';
+                        strengthBar.style.color = 'white';
 
                     } else if (data.passwordStrength === "Strong") {
-                        strengthBar.style.width = "100%";
+                        strengthBar.style.width = "100%";                
                         strengthBar.style.backgroundColor = "green";
+                        strengthBar.style.color = 'white';
+                        strengthBar.style.display = 'flex';  
+                        strengthBar.style.justifyContent = 'center';
+                        strengthBar.style.alignItems = 'center';
+                        strengthBar.textContent = 'Strong Password';
+                        
+
 
                     } else {
                         // fallback case
                         strengthBar.style.width = "100%";
+                        strengthBar.style.height = '30px';
                         strengthBar.style.backgroundColor = "black";
                         strengthBar.style.color = "white";
+                        strengthBar.style.display = 'flex';
+                        strengthBar.style.justifyContent = 'center';
+                        strengthBar.style.alignItems = 'center';
+                        strengthBar.textContent = 'No Strength, Please choose another password!';
                     }
                 },
                 error: function (error) {
